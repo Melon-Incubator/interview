@@ -110,14 +110,4 @@ export default defineConfig({
       },
     },
   },
-  ignoreDeadLinks: [
-    "/frontend/basic",
-    "/frontend/framework",
-    "/frontend/engineering",
-    "/frontend/cross-platform",
-    "/frontend/engineering/build",
-    "/frontend/engineering/performance",
-    "/frontend/framework/react",
-    "/frontend/framework/vue",
-  ],
 });
