@@ -317,95 +317,358 @@ function useWindowSize() {
 4. **避免过度设计**
 5. **注意性能优化**
 
-## 3. React 性能优化
+## 3. JSX 是什么，它和 JS 有什么区别
 
-### 3.1 常用优化手段
+### 3.1 JSX 基本概念
+
+> 面试题：什么是 JSX？为什么要使用 JSX？
 
 ```jsx
-// 问题：React 常见的性能优化方式有哪些？
+// 🤔 问题：JSX 和普通 JavaScript 有什么区别？
+// ✅ 答案：
+// 1. JSX 是 JavaScript 的语法扩展
+// 2. 允许在 JS 中编写类 HTML 代码
+// 3. 最终会被编译为普通的 JavaScript 函数调用
+// 4. 提供了声明式的视图描述方式
 
-// 1. React.memo 避免不必要的渲染
-const MemoComponent = React.memo(function MyComponent(props) {
-  return <div>{props.value}</div>;
-});
+// JSX 语法
+const element = <div className="greeting">Hello, {formatName(user)}</div>;
 
-// 2. useMemo 缓存计算结果
-function Example({ data }) {
-  const processedData = useMemo(() => {
-    return expensiveOperation(data);
-  }, [data]);
-}
+// 编译后的 JavaScript
+const element = React.createElement(
+  "div",
+  { className: "greeting" },
+  "Hello, ",
+  formatName(user)
+);
+```
 
-// 3. useCallback 缓存函数
-function Parent() {
-  const handleClick = useCallback(() => {
-    console.log("clicked");
-  }, []); // 依赖为空数组，函数永远不变
-}
+### 3.2 JSX 特性
 
-// 4. 虚拟列表优化长列表
-function VirtualList({ items }) {
+1. **表达式嵌入**：
+
+```jsx
+// 🤔 问题：JSX 中如何嵌入 JavaScript 表达式？
+// ✅ 答案：使用花括号 {} 嵌入任何有效的 JavaScript 表达式
+
+function Greeting({ user }) {
   return (
-    <div style={{ height: "400px", overflow: "auto" }}>
-      {/* 只渲染可视区域的内容 */}
+    <div>
+      {/* 条件渲染 */}
+      {user ? <h1>Welcome back, {user.name}!</h1> : <h1>Please log in.</h1>}
+
+      {/* 列表渲染 */}
+      <ul>
+        {user.permissions.map((perm) => (
+          <li key={perm.id}>{perm.name}</li>
+        ))}
+      </ul>
     </div>
   );
 }
 ```
 
-### 3.2 常见问题和解决方案
+2. **属性定义**：
 
 ```jsx
-// 问题：如何处理 React 中的常见性能问题？
+// 🤔 问题：JSX 中的属性与 HTML 属性有什么区别？
+// ✅ 答案：
+// 1. 使用 camelCase 命名
+// 2. class 变为 className
+// 3. 可以使用表达式赋值
+// 4. 某些属性名称不同（如：for -> htmlFor）
 
-// 1. 避免内联函数
-// ❌ 不好的做法
-<button onClick={() => handleClick()}>Click</button>
+function Button({ isActive, onClick }) {
+  return (
+    <button
+      className={`btn ${isActive ? "active" : ""}`}
+      onClick={onClick}
+      disabled={!isActive}
+      data-testid="custom-button"
+    >
+      点击我
+    </button>
+  );
+}
+```
 
-// ✅ 好的做法
-<button onClick={handleClick}>Click</button>
+### 3.3 JSX 编译过程
 
-// 2. 大量数据渲染
-function BigList({ items }) {
-  // 使用 windowing 或分页
+```jsx
+// 🤔 问题：JSX 是如何被转换成 JavaScript 的？
+// ✅ 答案：
+// 1. Babel 等工具将 JSX 转换为 React.createElement() 调用
+// 2. React 17+ 使用新的 JSX 转换，无需显式引入 React
+// 3. 最终生成虚拟 DOM 对象
+
+// 原始 JSX
+function App() {
   return (
     <div>
-      {items.slice(0, 10).map(item => (
-        <ListItem key={item.id} data={item} />
+      <h1 className="title">Hello</h1>
+      <p style={{ color: "red" }}>World</p>
+    </div>
+  );
+}
+
+// 转换后的代码（React 17 之前）
+function App() {
+  return React.createElement(
+    "div",
+    null,
+    React.createElement("h1", { className: "title" }, "Hello"),
+    React.createElement("p", { style: { color: "red" } }, "World")
+  );
+}
+
+// React 17+ 的新 JSX 转换
+import { jsx as _jsx } from "react/jsx-runtime";
+
+function App() {
+  return _jsx("div", {
+    children: [
+      _jsx("h1", { className: "title", children: "Hello" }),
+      _jsx("p", { style: { color: "red" }, children: "World" }),
+    ],
+  });
+}
+```
+
+### 3.4 JSX 最佳实践
+
+```jsx
+// 🤔 问题：使用 JSX 时应该注意什么？
+// ✅ 答案：
+// 1. 始终使用适当的键值
+// 2. 避免复杂的内联表达式
+// 3. 适当拆分组件
+// 4. 注意 JSX 的限制
+
+// ✅ 好的实践
+function GoodExample() {
+  const items = ["A", "B", "C"];
+  const handleClick = useCallback(() => {
+    // 处理点击
+  }, []);
+
+  return (
+    <div>
+      {/* 使用 key */}
+      {items.map((item, index) => (
+        <ListItem key={item} data={item} />
+      ))}
+
+      {/* 提取复杂逻辑 */}
+      <ComplexComponent onClick={handleClick} />
+    </div>
+  );
+}
+
+// ❌ 不好的实践
+function BadExample() {
+  return (
+    <div>
+      {/* 避免复杂的内联表达式 */}
+      {items.map((item, index) => (
+        <div
+          key={index}
+          onClick={() => {
+            // 复杂的内联处理逻辑
+            doSomething();
+            doSomethingElse();
+          }}
+        >
+          {item}
+        </div>
       ))}
     </div>
   );
 }
+```
 
-// 3. 状态管理优化
-function OptimizedComponent() {
-  // 使用 useReducer 替代多个 useState
-  const [state, dispatch] = useReducer(reducer, initialState);
+## 4. React 事件机制
+
+### 4.1 事件系统概述
+
+> 面试题：React 的事件系统是如何工作的？与原生 DOM 事件有什么不同？
+
+```jsx
+// 🤔 问题：React 事件和原生 DOM 事件有什么区别？
+// ✅ 答案：
+// 1. 事件委托：React 统一在 root 节点监听
+// 2. 事件合成：React 封装了事件对象
+// 3. 命名规范：使用 camelCase
+// 4. 跨浏览器兼容：React 统一了事件处理
+
+// React 事件示例
+function Button() {
+  const handleClick = (e) => {
+    // e 是 React 的合成事件对象
+    e.preventDefault();
+    console.log("按钮被点击");
+  };
+
+  return <button onClick={handleClick}>点击我</button>;
 }
 ```
 
-## 4. 面试重点
+### 4.2 事件委托机制
 
-1. **React 的工作原理**
+```jsx
+// 🤔 问题：React 为什么要使用事件委托？有什么优势？
+// ✅ 答案：
+// 1. 提高性能：减少事件监听器数量
+// 2. 节省内存：统一管理事件
+// 3. 动态元素：自动处理新增元素的事件
 
-- Virtual DOM 的实现
-- Diff 算法的原理
-- Fiber 架构
+function TodoList() {
+  const handleItemClick = (id) => {
+    console.log(`点击了项目 ${id}`);
+  };
 
-2. **状态管理**
+  return (
+    <ul>
+      {/* 所有 li 的点击事件都委托到父元素处理 */}
+      {items.map((item) => (
+        <li key={item.id} onClick={() => handleItemClick(item.id)}>
+          {item.text}
+        </li>
+      ))}
+    </ul>
+  );
+}
+```
 
-- setState 的原理
-- Hooks 的实现
-- Redux 的工作流程
+### 4.3 合成事件（SyntheticEvent）
 
-3. **生命周期**
+```jsx
+// 🤔 问题：什么是合成事件？为什么需要合成事件？
+// ✅ 答案：
+// 1. 跨浏览器标准化
+// 2. 性能优化
+// 3. 统一的事件处理方式
 
-- 新旧生命周期的区别
-- useEffect 的执行时机
-- 常见问题处理
+function Form() {
+  const handleSubmit = (e) => {
+    e.preventDefault(); // 阻止默认行为
+    const syntheticEvent = e; // React 合成事件
+    const nativeEvent = e.nativeEvent; // 原生 DOM 事件
 
-4. **性能优化**
+    console.log(syntheticEvent.target); // 当前元素
+    console.log(syntheticEvent.currentTarget); // 事件处理绑定元素
+  };
 
-- 渲染优化
-- 数据处理
-- 代码分割
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        onChange={(e) => {
+          // e.persist(); // React 17+ 不再需要
+          console.log(e.target.value);
+        }}
+      />
+      <button type="submit">提交</button>
+    </form>
+  );
+}
+```
+
+### 4.4 事件处理最佳实践
+
+```jsx
+// 🤔 问题：React 事件处理的最佳实践有哪些？
+// ✅ 答案：
+// 1. 使用事件委托
+// 2. 避免内联函数
+// 3. 适当的事件绑定方式
+// 4. 注意事件清理
+
+function GoodPractice() {
+  // 1. 使用 useCallback 缓存事件处理函数
+  const handleClick = useCallback((e) => {
+    console.log("按钮点击");
+  }, []);
+
+  // 2. 事件处理函数命名规范
+  const handleSubmit = useCallback((e) => {
+    e.preventDefault();
+    // 处理提交
+  }, []);
+
+  // 3. 清理副作用
+  useEffect(() => {
+    const handleScroll = () => {
+      console.log("滚动");
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // 清理事件监听
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  return (
+    <div>
+      {/* 避免内联函数 */}
+      <button onClick={handleClick}>点击</button>
+
+      <form onSubmit={handleSubmit}>
+        <button type="submit">提交</button>
+      </form>
+    </div>
+  );
+}
+```
+
+### 4.5 常见问题和解决方案
+
+```jsx
+// 🤔 问题：React 事件处理中的常见问题有哪些？
+
+// 1. 事件绑定中的 this 问题
+class ClassComponent extends React.Component {
+  // 推荐：使用箭头函数
+  handleClick = () => {
+    console.log("this is:", this);
+  };
+
+  // 或者在构造函数中绑定
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  render() {
+    return <button onClick={this.handleClick}>点击</button>;
+  }
+}
+
+// 2. 事件参数传递
+function EventParams() {
+  // 传递额外参数
+  const handleClick = useCallback((id, e) => {
+    console.log("ID:", id);
+    console.log("Event:", e);
+  }, []);
+
+  return <button onClick={(e) => handleClick("123", e)}>点击</button>;
+}
+
+// 3. 事件冒泡控制
+function StopPropagation() {
+  return (
+    <div onClick={() => console.log("外层点击")}>
+      <button
+        onClick={(e) => {
+          e.stopPropagation(); // 阻止冒泡
+          console.log("按钮点击");
+        }}
+      >
+        点击
+      </button>
+    </div>
+  );
+}
+```
