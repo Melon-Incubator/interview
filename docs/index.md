@@ -1,7 +1,7 @@
 ---
 layout: home
 hero:
-  name: "{ FE Interview }"
+  name: "{ Melon FE }"
   text: "大前端面试整理"
   tagline: 技能整理，面向未来编程。
   actions:

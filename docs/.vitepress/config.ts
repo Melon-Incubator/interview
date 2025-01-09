@@ -1,8 +1,8 @@
 import { defineConfig } from "vitepress";
 
 export default defineConfig({
-  title: "FE Interview",
-  description: "前端面试题整理",
+  title: "Melon FE",
+  description: "大前端重点知识整理",
   locales: {
     root: {
       label: "简体中文",
@@ -10,7 +10,7 @@ export default defineConfig({
       title: "前端面试题整理",
       description: "系统化整理前端面试知识点，助力开发者进阶",
       themeConfig: {
-        siteTitle: "{ FE Interview }",
+        siteTitle: "{ Melon FE }",
         nav: [
           { text: "首页", link: "/" },
           { text: "算法与数据结构", link: "/algorithm/" },
@@ -60,7 +60,7 @@ export default defineConfig({
 
         footer: {
           message: "基于 MIT 许可发布",
-          copyright: "Copyright © 2024-present FE Interview",
+          copyright: "Copyright © 2024-present Melon FE",
         },
 
         outline: "deep",
