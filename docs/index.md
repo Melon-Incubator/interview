@@ -2,8 +2,8 @@
 layout: home
 hero:
   name: "{ Melon FE }"
-  text: "大前端面试整理"
-  tagline: 技能整理，面向未来编程。
+  text: "大前端技术整理"
+  tagline: 技术整理，面向面试编程。
   actions:
     - theme: brand
       text: 开始阅读

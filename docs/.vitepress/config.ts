@@ -7,8 +7,8 @@ export default defineConfig({
     root: {
       label: "简体中文",
       lang: "zh",
-      title: "前端面试题整理",
-      description: "系统化整理前端面试知识点，助力开发者进阶",
+      title: "前端技术整理",
+      description: "系统化整理前端技术知识点，面试导向，助力开发者进阶",
       themeConfig: {
         siteTitle: "{ Melon FE }",
         nav: [
@@ -25,7 +25,7 @@ export default defineConfig({
         sidebar: {
           "/frontend/": [
             {
-              text: "前端面试",
+              text: "前端",
               items: [
                 { text: "概述", link: "/frontend/" },
                 {
