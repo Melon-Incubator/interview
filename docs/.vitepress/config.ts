@@ -15,36 +15,35 @@ export default defineConfig({
           { text: "首页", link: "/" },
           { text: "算法与数据结构", link: "/algorithm/" },
           { text: "计算机网络", link: "/network/" },
-          { text: "前端基础", link: "/frontend/basic" },
-          { text: "框架原理", link: "/frontend/framework" },
-          { text: "工程化", link: "/frontend/engineering" },
-          { text: "跨端开发", link: "/frontend/cross-platform" },
+          { text: "前端", link: "/frontend" },
+          { text: "跨端开发", link: "/cross-platform" },
           { text: "关于", link: "/about/" },
         ],
 
         sidebar: {
           "/frontend/": [
             {
-              text: "前端",
               items: [
-                { text: "概述", link: "/frontend/" },
                 {
-                  text: "JavaScript",
+                  text: "前端基础",
+                  link: "/frontend/basic",
                   items: [
-                    { text: "基础知识", link: "/frontend/javascript/basic" },
-                    { text: "进阶知识", link: "/frontend/javascript/advanced" },
-                    { text: "ES6+特性", link: "/frontend/javascript/es6" },
+                    { text: "CSS", link: "/frontend/basic/css" },
+                    { text: "HTML", link: "/frontend/basic/html" },
+                    { text: "JavaScript", link: "/frontend/basic/javascript" },
                   ],
                 },
                 {
                   text: "框架",
+                  link: "/frontend/framework",
                   items: [
                     { text: "React", link: "/frontend/framework/react" },
-                    { text: "Vue", link: "/frontend/framework/vue" },
+                    { text: "框架设计", link: "/frontend/framework/design" },
                   ],
                 },
                 {
                   text: "工程化",
+                  link: "/frontend/engineering",
                   items: [
                     { text: "构建工具", link: "/frontend/engineering/build" },
                     {
@@ -55,8 +54,35 @@ export default defineConfig({
                       text: "包管理器",
                       link: "/frontend/engineering/packageManager",
                     },
+                    {
+                      text: "持续集成与持续交付",
+                      link: "/frontend/engineering/cicd",
+                    },
+                    {
+                      text: "监控",
+                      link: "/frontend/engineering/monitor",
+                    },
+                    {
+                      text: "安全",
+                      link: "/frontend/engineering/security",
+                    },
+                    {
+                      text: "测试",
+                      link: "/frontend/engineering/test",
+                    },
                   ],
                 },
+              ],
+            },
+          ],
+          "/cross-platform/": [
+            {
+              items: [
+                { text: "核心原理", link: "/cross-platform/core" },
+                { text: "React Native", link: "/cross-platform/react-native" },
+                { text: "小程序", link: "/cross-platform/mini-program" },
+                { text: "混合开发", link: "/cross-platform/hybrid" },
+                { text: "跨端解决方案", link: "/cross-platform/solution" },
               ],
             },
           ],
