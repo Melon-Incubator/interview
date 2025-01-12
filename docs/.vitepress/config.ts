@@ -51,6 +51,10 @@ export default defineConfig({
                       text: "性能优化",
                       link: "/frontend/engineering/performance",
                     },
+                    {
+                      text: "包管理器",
+                      link: "/frontend/engineering/packageManager",
+                    },
                   ],
                 },
               ],

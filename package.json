@@ -4,7 +4,7 @@
   "description": "A tech blog covering Frontend, Backend, and AI topics",
   "type": "module",
   "scripts": {
-    "docs:dev": "vitepress dev docs",
+    "dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
   },
