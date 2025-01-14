@@ -1,7 +1,7 @@
 {
-  "name": "melon-incubator-blog",
+  "name": "interview-notes",
   "version": "1.0.0",
-  "description": "A tech blog covering Frontend, Backend, and AI topics",
+  "description": "Interview Notes",
   "type": "module",
   "scripts": {
     "dev": "vitepress dev docs",
