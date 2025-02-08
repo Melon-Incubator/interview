@@ -80,7 +80,8 @@ packages:
 - 提供构建 profile 分析
 - 支持任务管道可视化
 
-```json:turbo.json
+```json
+// turbo.json
 {
   "pipeline": {
     "build": {
@@ -143,7 +144,8 @@ CI/CD场景: turborepo(更好的缓存)
 
 ### 3.2 性能优化
 
-```json:turbo.json
+```json
+// turbo.json
 {
   "pipeline": {
     "build": {
@@ -164,10 +166,11 @@ CI/CD场景: turborepo(更好的缓存)
 
 ### 4.1 工作区依赖
 
-```json:packages/pkg-a/package.json
+```json
+// packages/pkg-a/package.json
 {
   "dependencies": {
-    "pkg-b": "workspace:*"  // 使用 workspace 协议
+    "pkg-b": "workspace:*" // 使用 workspace 协议
   }
 }
 ```
@@ -184,7 +187,8 @@ lerna version --independent
 
 ### 4.3 构建顺序
 
-```json:turbo.json
+```json
+// turbo.json
 {
   "pipeline": {
     "build": {
