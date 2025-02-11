@@ -11,3 +11,5 @@
 [5. Rollup 如何实现树摇优化和代码分割](./rollup.md)
 
 [6. esbuild 原理及最佳实践](./esbuild.md)
+
+[7. esbuild-plugin 原理及最佳实践](./esbuild-plugin.md)
