@@ -3,9 +3,9 @@
 
 文档编写规则
 - 文档格式参考 /docs/frontend/framework/react/react-basic.md
-- 更加面试导向，突出重点
+- 面向面试，突出重点
 - 每个概念都配有相关面试题
 - 包含了代码示例和最佳实践
 - 突出了常见问题和解决方案
 - 文档需要包含面试常见问题和答案
-- Chat 和 Compose 注意返回 markdown 格式中代码和正常文本的格式。
+- Chat 和 Compose 请返回 markdown 格式，代码和正常文本的格式正确。
