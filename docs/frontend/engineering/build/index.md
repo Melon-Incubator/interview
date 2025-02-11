@@ -13,3 +13,5 @@
 [6. esbuild 原理及最佳实践](./esbuild.md)
 
 [7. esbuild-plugin 原理及最佳实践](./esbuild-plugin.md)
+
+[8. 虚拟模块（Virtual Modules）原理及实践](./virtual-modules.md)
