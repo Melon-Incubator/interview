@@ -15,3 +15,5 @@
 [7. esbuild-plugin 原理及最佳实践](./esbuild-plugin.md)
 
 [8. 虚拟模块（Virtual Modules）原理及实践](./virtual-modules.md)
+
+[9. 构建工具的 30 个面试题](./build-30-questions.md)

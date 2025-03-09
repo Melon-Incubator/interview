@@ -12,31 +12,35 @@
 ## 应用场景
 
 ### 1. 环境变量注入
+
 ```typescript
 // virtual:env
-import env from 'virtual:env';
+import env from "virtual:env";
 console.log(env.API_URL);
 ```
 
 ### 2. 运行时配置
+
 ```typescript
 // virtual:config
-import config from 'virtual:config';
+import config from "virtual:config";
 console.log(config.theme);
 ```
 
 ### 3. API 路由生成
+
 ```typescript
 // virtual:routes
-import routes from 'virtual:routes';
+import routes from "virtual:routes";
 router.addRoutes(routes);
 ```
 
 ### 4. 样式变量注入
+
 ```typescript
 // virtual:theme
-import theme from 'virtual:theme';
-document.body.style.setProperty('--primary-color', theme.primaryColor);
+import theme from "virtual:theme";
+document.body.style.setProperty("--primary-color", theme.primaryColor);
 ```
 
 ## 在不同构建工具中的实现
@@ -54,10 +58,10 @@ class VirtualModulesPlugin {
     const virtualFS = createVirtualFS(this.modules);
 
     // 注册文件系统钩子
-    compiler.hooks.afterEnvironment.tap('VirtualModulesPlugin', () => {
+    compiler.hooks.afterEnvironment.tap("VirtualModulesPlugin", () => {
       compiler.inputFileSystem = new Proxy(compiler.inputFileSystem, {
         get: (target, prop) => {
-          if (prop === 'readFileSync') {
+          if (prop === "readFileSync") {
             return (path) => {
               if (this.modules[path]) {
                 return this.modules[path];
@@ -66,31 +70,37 @@ class VirtualModulesPlugin {
             };
           }
           return target[prop];
-        }
+        },
       });
     });
 
     // 注册模块工厂钩子
-    compiler.hooks.normalModuleFactory.tap('VirtualModulesPlugin', (factory) => {
-      factory.hooks.resolve.tapAsync('VirtualModulesPlugin', (data, callback) => {
-        if (this.modules[data.request]) {
-          return callback(null, {
-            context: data.context,
-            request: data.request,
-            userRequest: data.request,
-            resource: data.request,
-            module: new VirtualModule(this.modules[data.request])
-          });
-        }
-        callback();
-      });
-    });
+    compiler.hooks.normalModuleFactory.tap(
+      "VirtualModulesPlugin",
+      (factory) => {
+        factory.hooks.resolve.tapAsync(
+          "VirtualModulesPlugin",
+          (data, callback) => {
+            if (this.modules[data.request]) {
+              return callback(null, {
+                context: data.context,
+                request: data.request,
+                userRequest: data.request,
+                resource: data.request,
+                module: new VirtualModule(this.modules[data.request]),
+              });
+            }
+            callback();
+          }
+        );
+      }
+    );
   }
 }
 
 // 使用示例
 new VirtualModulesPlugin({
-  'virtual-module.js': 'export default "这是虚拟模块内容";'
+  "virtual-module.js": 'export default "这是虚拟模块内容";',
 });
 ```
 
@@ -98,12 +108,12 @@ new VirtualModulesPlugin({
 
 ```typescript
 export default function virtualModulePlugin() {
-  const virtualModuleId = 'virtual:my-module';
-  const resolvedVirtualModuleId = '\0' + virtualModuleId;
+  const virtualModuleId = "virtual:my-module";
+  const resolvedVirtualModuleId = "\0" + virtualModuleId;
 
   return {
-    name: 'virtual-module',
-    
+    name: "virtual-module",
+
     resolveId(id) {
       if (id === virtualModuleId) {
         return resolvedVirtualModuleId;
@@ -114,7 +124,7 @@ export default function virtualModulePlugin() {
       if (id === resolvedVirtualModuleId) {
         return {
           code: 'export default "这是虚拟模块内容"',
-          map: null // 可选的 source map
+          map: null, // 可选的 source map
         };
       }
     },
@@ -123,15 +133,13 @@ export default function virtualModulePlugin() {
     handleHotUpdate({ modules }) {
       // 处理模块热更新
       return modules;
-    }
+    },
   };
 }
 
 // 使用示例
 export default {
-  plugins: [
-    virtualModulePlugin()
-  ]
+  plugins: [virtualModulePlugin()],
 };
 ```
 
@@ -139,34 +147,34 @@ export default {
 
 ```typescript
 let virtualModulePlugin = {
-  name: 'virtual-module',
+  name: "virtual-module",
   setup(build) {
     // 创建虚拟模块命名空间
-    const namespace = 'virtual-namespace';
+    const namespace = "virtual-namespace";
 
     // 解析虚拟模块
     build.onResolve({ filter: /^virtual:/ }, (args) => ({
       path: args.path,
-      namespace
+      namespace,
     }));
 
     // 加载虚拟模块内容
     build.onLoad({ filter: /.*/, namespace }, (args) => {
-      const moduleId = args.path.replace(/^virtual:/, '');
-      
+      const moduleId = args.path.replace(/^virtual:/, "");
+
       return {
         contents: `export default "这是虚拟模块 ${moduleId} 的内容"`,
-        loader: 'js'
+        loader: "js",
       };
     });
-  }
+  },
 };
 
 // 使用示例
-require('esbuild').build({
-  entryPoints: ['app.js'],
+require("esbuild").build({
+  entryPoints: ["app.js"],
   bundle: true,
-  plugins: [virtualModulePlugin]
+  plugins: [virtualModulePlugin],
 });
 ```
 
@@ -176,25 +184,25 @@ require('esbuild').build({
 
 ```typescript
 // 推荐的命名前缀
-const VIRTUAL_PREFIX = 'virtual:';
-const RESOLVED_PREFIX = '\0virtual:';
+const VIRTUAL_PREFIX = "virtual:";
+const RESOLVED_PREFIX = "\0virtual:";
 
 // 模块命名示例
-const moduleId = 'virtual:my-module';
-const resolvedId = '\0virtual:my-module';
+const moduleId = "virtual:my-module";
+const resolvedId = "\0virtual:my-module";
 ```
 
 ### 2. 类型支持
 
 ```typescript
 // 声明虚拟模块的类型
-declare module 'virtual:*' {
+declare module "virtual:*" {
   const content: any;
   export default content;
 }
 
 // 具体模块的类型定义
-declare module 'virtual:env' {
+declare module "virtual:env" {
   interface Env {
     NODE_ENV: string;
     API_URL: string;
@@ -221,13 +229,13 @@ function getVirtualModule(id: string) {
 
 ```typescript
 function setupHMR(server) {
-  server.watcher.on('change', (file) => {
+  server.watcher.on("change", (file) => {
     if (isVirtualModuleDependency(file)) {
       // 清除缓存
       moduleCache.clear();
       // 触发重新加载
       server.ws.send({
-        type: 'full-reload'
+        type: "full-reload",
       });
     }
   });
@@ -245,9 +253,11 @@ build.onResolve({ filter: /^virtual:/ }, (args) => {
   const resolved = resolveVirtualModule(args.path);
   if (!resolved) {
     return {
-      errors: [{
-        text: `找不到虚拟模块: ${args.path}`,
-      }]
+      errors: [
+        {
+          text: `找不到虚拟模块: ${args.path}`,
+        },
+      ],
     };
   }
   return resolved;
@@ -263,12 +273,14 @@ function invalidateCache(id: string) {
   moduleCache.delete(id);
   // 通知开发服务器
   devServer.sendMessage({
-    type: 'update',
-    updates: [{
-      type: 'js-update',
-      path: id,
-      acceptedPath: id
-    }]
+    type: "update",
+    updates: [
+      {
+        type: "js-update",
+        path: id,
+        acceptedPath: id,
+      },
+    ],
   });
 }
 ```
@@ -283,9 +295,9 @@ function generateSourceMap(source: string, filename: string) {
     version: 3,
     sources: [filename],
     names: [],
-    mappings: 'AAAA',
+    mappings: "AAAA",
     file: filename,
-    sourcesContent: [source]
+    sourcesContent: [source],
   };
 }
 ```
@@ -295,6 +307,7 @@ function generateSourceMap(source: string, filename: string) {
 ### 1. 虚拟模块的优势是什么？
 
 **答案**：虚拟模块的主要优势包括：
+
 - 动态生成代码，无需物理文件
 - 提高构建性能，减少 IO 操作
 - 实现特殊的模块逻辑
@@ -304,6 +317,7 @@ function generateSourceMap(source: string, filename: string) {
 ### 2. 不同构建工具实现虚拟模块的异同？
 
 **答案**：
+
 - Webpack：通过自定义文件系统和模块工厂实现
 - Vite：使用插件系统的 resolveId 和 load 钩子
 - Esbuild：通过 namespace 和 onResolve/onLoad 钩子
@@ -313,6 +327,7 @@ function generateSourceMap(source: string, filename: string) {
 ### 3. 如何处理虚拟模块的热更新？
 
 **答案**：
+
 1. 监听相关依赖的变化
 2. 清除模块缓存
 3. 触发模块重新加载
@@ -321,6 +336,7 @@ function generateSourceMap(source: string, filename: string) {
 ### 4. 虚拟模块的应用场景有哪些？
 
 **答案**：
+
 1. 环境变量注入
 2. 运行时配置
 3. API 路由生成

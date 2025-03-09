@@ -11,7 +11,7 @@ function UseDeferredValueDemo() {
   const list = useMemo(() => {
     console.log(`生成列表，使用延迟值: "${deferredInput}"`);
     const newList = [];
-    for (let i = 0; i < LIST_SIZE; i++) {
+    for (let i = 0; i < LIST_SIZE; i++) { 
       newList.push(`${deferredInput} 项目 ${i + 1}`);
     }
     return newList;
