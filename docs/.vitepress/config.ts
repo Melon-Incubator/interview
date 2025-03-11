@@ -16,10 +16,8 @@ export default defineConfig({
           { text: "算法与数据结构", link: "/algorithm/" },
           { text: "计算机网络", link: "/network/" },
           { text: "前端", link: "/frontend" },
-          { text: "跨端开发", link: "/cross-platform" },
           { text: "关于", link: "/about/" },
         ],
-
         sidebar: {
           "/frontend/": [
             {
@@ -39,6 +37,26 @@ export default defineConfig({
                   items: [
                     { text: "React", link: "/frontend/framework/react" },
                     { text: "框架设计", link: "/frontend/framework/design" },
+                    {
+                      text: "跨端开发",
+                      link: "/frontend/framework/cross-platform",
+                    },
+                    {
+                      text: "小程序运行时",
+                      link: "/frontend/framework/miniapp/runtime",
+                    },
+                    {
+                      text: "小程序编译时",
+                      link: "/frontend/framework/miniapp/compile-time",
+                    },
+                    {
+                      text: "低代码开发平台",
+                      link: "/frontend/framework/lowcode-studio",
+                    },
+                    {
+                      text: "TS 元编程",
+                      link: "/frontend/framework/meta-programming",
+                    },
                   ],
                 },
                 {
@@ -72,17 +90,6 @@ export default defineConfig({
                     },
                   ],
                 },
-              ],
-            },
-          ],
-          "/cross-platform/": [
-            {
-              items: [
-                { text: "核心原理", link: "/cross-platform/core" },
-                { text: "React Native", link: "/cross-platform/react-native" },
-                { text: "小程序", link: "/cross-platform/mini-program" },
-                { text: "混合开发", link: "/cross-platform/hybrid" },
-                { text: "跨端解决方案", link: "/cross-platform/solution" },
               ],
             },
           ],
