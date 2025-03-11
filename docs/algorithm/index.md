@@ -17,7 +17,6 @@
 - [排序算法](./frequent-problems/sort.md)：常见排序算法及其实现
 - [二分查找](./frequent-problems/binary-search.md)：二分查找的实现及变体
 - [滑动窗口](./frequent-problems/sliding-window.md)：子串问题、最长无重复子串等
-- [区间问题](./frequent-problems/interval.md)：区间合并、冲突检测等
 - [动态规划](./frequent-problems/dynamic-programming.md)：DP 问题的思路与解法
 - [BFS](./frequent-problems/breadth-first-search.md)：广度优先搜索及其应用
 - [DFS](./frequent-problems/depth-first-search.md)：深度优先搜索及其应用

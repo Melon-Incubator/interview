@@ -3,6 +3,11 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
   title: "Melon FE",
   description: "大前端重点知识整理",
+  markdown: {
+    frontmatter: {
+      renderExcerpt: false,
+    },
+  },
   locales: {
     root: {
       label: "简体中文",

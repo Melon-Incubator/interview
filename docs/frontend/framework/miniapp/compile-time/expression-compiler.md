@@ -2,7 +2,7 @@
 
 ### 1. 整体架构
 
-expression-compiler 是小程序开发框架中的表达式编译器，用于处理模板中的数据绑定表达式（如 `{{ user.name }}`、`{{ a + b }}`）。它将这些表达式编译成可在运行时高效执行的 JavaScript 代码。
+expression-compiler 是小程序开发框架中的表达式编译器，用于处理模板中的数据绑定表达式（如 {{ user }}、{{ a + b }}）。它将这些表达式编译成可在运行时高效执行的 JavaScript 代码。
 
 编译器采用经典的三阶段编译流程：
 
@@ -187,7 +187,7 @@ export function parser(tokens: TNode[]): AstNode {
 
 语法分析器引入了更多的 AST 类型，包括：
 
-- DataExpression：数据访问表达式（如 user.name）
+- DataExpression：数据访问表达式（如 user）
 - IndexExpression：索引访问表达式（如 array[index]）
 - ObjectExpression：对象表达式（如 {a: 1, b: 2}）
 - ArrayExpression：数组表达式（如 [1, 2, 3]）
@@ -219,7 +219,7 @@ function codeGenerator(
     // 文本节点生成字符串字面量
     return JSON.stringify(node.value);
   } else if (type === AstTypes.DataExpression) {
-    // 数据访问表达式，如 user.name
+    // 数据访问表达式，如 user
     const codeFrame = node.elements.map((item, index) => {
       return codeGenerator(item, node.elements, index, ExpType.DataExpression);
     });
@@ -256,10 +256,10 @@ expression-compiler 通过将属性访问表达式转换为特殊函数调用，
 
 ```javascript
 // 原始表达式
-{{ user.profile.name }}
+{{ user.profile }}
 
 // 编译后
-**EXPRESSION**(**EXP**("user", "profile", "name"))
+**EXPRESSION**(**EXP**("user", "profile"))
 ```
 
 在运行时，**EXP** 函数会检查每一层属性是否存在，避免访问 undefined 的属性。
@@ -316,10 +316,10 @@ try {
 
 ```javascript
 // 模板中的表达式
-{{ user.name }}
+{{ user }}
 
 // 编译后的代码
-**EXPRESSION**(**EXP**("user", "name"))
+**EXPRESSION**(**EXP**("user"))
 
 // 收集的变量
 ["user"]

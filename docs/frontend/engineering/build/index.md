@@ -8,7 +8,7 @@
 
 [4. Vite 最佳实践](./vite-best-practice.md)
 
-[5. Rollup 如何实现树摇优化和代码分割](./rollup.md)
+[5. Rollup 如何实现树摇优化和代码分割](./rollup-treeshaking.md)
 
 [6. esbuild 原理及最佳实践](./esbuild.md)
 
