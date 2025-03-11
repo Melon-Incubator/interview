@@ -161,7 +161,7 @@
 
 - **开启 Hermes 引擎**：  
   在 `android/app/build.gradle` 中启用 Hermes。
-  ```gradle
+  ```
   project.ext.react = [
     enableHermes: true,
   ]
