@@ -1,19 +1,13 @@
 # 前端框架设计
 
-[1. Vue 3](./vue3.md)
+[1. 小程序运行时](./miniapp/runtime/index.md)
 
-[2. Svelte](./svelte.md)
+[2. 小程序编译时](./miniapp/compile-time/index.md)
 
 [3. 响应式](./reactive.md)
 
-[4. 运行时](./runtime.md)
+[4. 虚拟 DOM](./virtual-dom.md)
 
-[5. 虚拟 DOM](./virtual-dom.md)
+[5. 不用虚拟 DOM？](./no-virtual-dom.md)
 
-[6. 不用虚拟 DOM？](./no-virtual-dom.md)
-
-[7. 编译时](./compile-time.md)
-
-[8. 路由原理](./router.md)
-
-[9. 状态管理](./state-management.md)
+[6. 状态管理](./state-management.md)
