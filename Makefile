@@ -1,8 +1,8 @@
 # 定义变量
 BRANCH_NAME = main
 
-# 推送代码到主分支
-push:
+push: 
+	yarn && yarn docs:build
 	git add .
-	git commit -m "feat: 发布文档"
+	git commit -m "feat: "
 	git push origin $(BRANCH_NAME)
