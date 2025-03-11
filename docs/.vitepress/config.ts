@@ -93,6 +93,16 @@ export default defineConfig({
               ],
             },
           ],
+          "/algorithm/": [
+            {
+              text: "算法",
+              link: "/algorithm/frequent-problems",
+            },
+            {
+              text: "数据结构",
+              link: "/algorithm/data-struct",
+            },
+          ],
         },
 
         footer: {
