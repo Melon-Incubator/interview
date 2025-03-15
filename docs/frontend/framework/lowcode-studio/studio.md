@@ -123,61 +123,58 @@ EditorScheduler 实现了对各个 store 的监听和调度：
 
 ```typescript
 useEffect(() => {
-// 监听页面配置变化
-const unsubscribe1 = usePagesStore.subscribe((state, prevState) => {
-if (!pickDeepEqual(state, prevState, ['pages'])) {
-scheduledSave()
-setSaved(false)
-doResetPublishStep()
-}
-
-    if (!pickDeepEqual(nowPage, prevPage, ['pageConfig', 'themeConfig'])) {
-      sandboxActions.pageConfigChange()
-      uiActions.pageConfigChange()
+  // 监听页面配置变化
+  const unsubscribe1 = usePagesStore.subscribe((state, prevState) => {
+    const nowPage = state.currentPage;
+    const prevPage = prevState.currentPage;
+    if (!pickDeepEqual(state, prevState, ["pages"])) {
+      scheduledSave();
+      setSaved(false);
+      doResetPublishStep();
     }
 
-})
+    if (!pickDeepEqual(nowPage, prevPage, ["pageConfig", "themeConfig"])) {
+      sandboxActions.pageConfigChange();
+      uiActions.pageConfigChange();
+    }
+  });
 
-// 监听多语言变化
-const unsubscribe2 = useLangCenterStore.subscribe(
-(state) => {...},
-(state, prevState) => {
-if (!pickDeepEqual(state, prevState, ['localLangs'])) {
-setSaved(false)
-doResetPublishStep()
-scheduledSave()
-}
-
-      if (!pickDeepEqual(state, prevState, ['localLangs', 'lang', 'langs'])) {
-        uiActions.pageConfigChange()
-        sandboxActions.pageConfigChange()
-        sandboxActions.i18nUpdate(state)
-        sandboxActions.studioRenderStart({ forceUpdate: true })
-      }
+  // 监听多语言变化
+  const unsubscribe2 = useLangCenterStore.subscribe((state, prevState) => {
+    if (!pickDeepEqual(state, prevState, ["localLangs"])) {
+      setSaved(false);
+      doResetPublishStep();
+      scheduledSave();
     }
 
-)
+    if (!pickDeepEqual(state, prevState, ["localLangs", "lang", "langs"])) {
+      uiActions.pageConfigChange();
+      sandboxActions.pageConfigChange();
+      sandboxActions.i18nUpdate(state);
+      sandboxActions.studioRenderStart({ forceUpdate: true });
+    }
+  });
 
-// 监听来自 AI 的规则应用
-const windowMessage = (event: MessageEvent) => {
-if (event.data && event.data.source === 'iot-rc-bridge') {
-const { payload } = event.data
-const { type } = payload
+  // 监听来自 AI 的规则应用
+  const windowMessage = (event: MessageEvent) => {
+    if (event.data && event.data.source === "iot-rc-bridge") {
+      const { payload } = event.data;
+      const { type } = payload;
 
-      if (type === 'APPLY_THEME') {
+      if (type === "APPLY_THEME") {
         // 应用AI生成的主题
-        useThemeStore.getState().applyGlobalTheme({ light: lightTheme, dark: darkTheme })
-      } else if (type === 'APPLY_RULE') {
+        useThemeStore
+          .getState()
+          .applyGlobalTheme({ light: lightTheme, dark: darkTheme });
+      } else if (type === "APPLY_RULE") {
         // 应用AI生成的规则
-        const { rule } = payload
-        const newRule = clearAiRule(rule)
+        const { rule } = payload;
+        const newRule = clearAiRule(rule);
         // 验证和保存规则
       }
     }
-
-}
-}, [])
-
+  };
+}, []);
 ```
 
 #### 2.4 性能优化关键代码

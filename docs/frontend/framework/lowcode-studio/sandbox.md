@@ -37,31 +37,31 @@ Sandbox 环境采用了经典的分层架构设计：
 
 ```javascript
 // serve.js
-const app = express()
-const PORT = process.env.PORT || 3000
+const app = express();
+const PORT = process.env.PORT || 3000;
 
 // 静态资源处理
-app.use(express.static(path.join(**dirname, 'static')))
-app.use(express.static(path.join(**dirname, 'dev-www')))
+app.use(express.static(path.join(__dirname, "static")));
+app.use(express.static(path.join(__dirname, "dev-www")));
 
 // HTML 资源处理中间件，支持代理模式
 const htmlController = (req, res, next) => {
-const isProxy = 'x-proxy-prefix' in req.headers
-// 检测代理前缀并注入重定向脚本
-if (reqPath.endsWith('.html') && isProxy) {
-// 处理 HTML 资源
-const script = `<script>window.__redirectPath = '/studio-sandbox/'</script>`
-html = html.replace('<head>', `<head>${script}`)
-res.send(html)
-} else {
-next()
-}
-}
+  const isProxy = "x-proxy-prefix" in req.headers;
+  // 检测代理前缀并注入重定向脚本
+  if (reqPath.endsWith(".html") && isProxy) {
+    // 处理 HTML 资源
+    const script = `<script>window.__redirectPath = '/studio-sandbox/'</script>`;
+    html = html.replace("<head>", `<head>${script}`);
+    res.send(html);
+  } else {
+    next();
+  }
+};
 
 // 启动 HTTP 服务
 httpServer.listen(PORT, () => {
-console.log(`Server is running on port http://localhost:${PORT}`)
-})
+  console.log(`Server is running on port http://localhost:${PORT}`);
+});
 ```
 
 #### 2.2 页面服务实现
