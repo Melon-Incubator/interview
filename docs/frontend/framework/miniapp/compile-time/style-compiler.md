@@ -233,3 +233,15 @@ Style-Compiler 通过以下核心原理实现样式处理与隔离：
 - 样式优化：应用 autoprefixer 和 cssnano 进行跨平台兼容和压缩
 - 性能优化：实现 MD5 缓存，避免重复处理
 - 错误处理：提供友好的错误信息
+
+### 3. 面试题
+
+**小程序如何实现样式隔离？CSS 模块化方案对比？**
+
+- 小程序通过标签选择器转换为属性选择器实现样式隔离
+
+- CSS 模块化方案：
+  - CSS Modules：通过编译时处理，将 CSS 文件转换为 JavaScript 对象
+  - CSS-in-JS：将 CSS 代码作为 JavaScript 对象
+  - styled-components：提供 React 组件化的 CSS 解决方案
+  - Tailwind CSS：提供原子化 CSS 解决方案

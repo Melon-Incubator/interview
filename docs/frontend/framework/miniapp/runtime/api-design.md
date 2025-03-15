@@ -314,18 +314,19 @@ class BatchProcessor {
 const lazyAPIs = {};
 
 function getLazyAPI(name) {
-if (!lazyAPIs[name]) {
-lazyAPIs[name] = new Proxy({}, {
-get(\_, property) {
-// 首次调用时加载
-if (!lazyAPIs[name].loaded) {
-lazyLoadAPI(name);
-}
-return lazyAPIs[name][property];
-}
-});
-}
-return lazyAPIs[name];
+  if (!lazyAPIs[name]) {
+    lazyAPIs[name] = new Proxy({}, {
+      get(\_, property) {
+        // 首次调用时加载
+        if (!lazyAPIs[name].loaded) {
+          lazyAPIs[name].loaded = true;
+          lazyLoadAPI(name);
+        }
+        return lazyAPIs[name][property];
+      }
+    });
+  }
+  return lazyAPIs[name];
 }
 ```
 
