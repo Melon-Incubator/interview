@@ -19,56 +19,56 @@
 
 ```typescript
 export async function minipack(\_options: Options) {
-try {
-// 规范化选项并创建项目
-buildStore.createProject(normalizeOptions(\_options));
-} catch (e) {
-// 错误处理...
-process.exit(103);
-}
+  try {
+    // 规范化选项并创建项目
+    buildStore.createProject(normalizeOptions(\_options));
+  } catch (e) {
+    // 错误处理...
+    process.exit(103);
+  }
 
-// 环境日志输出
-log.info('esbuild', 'version:', esbuild.version.green.bold);
+  // 环境日志输出
+  log.info('esbuild', 'version:', esbuild.version.green.bold);
 
-// 设置环境变量和项目配置
-process.env.PROJECT_ID = buildStore.getProjectId();
-const { miniprogramRoot, widgetRoot, publicRoot, functionalRoot } = buildStore.config;
+  // 设置环境变量和项目配置
+  process.env.PROJECT_ID = buildStore.getProjectId();
+  const { miniprogramRoot, widgetRoot, publicRoot, functionalRoot } = buildStore.config;
 
-// 创建构建资源和状态管理器
-const miniprogramDistDir = path.join(buildStore.outputDir, 'miniprogram');
-const miniprogramAssets = new BuildAssets({ distDir: miniprogramDistDir });
-const miniprogramState = new BundleState();
+  // 创建构建资源和状态管理器
+  const miniprogramDistDir = path.join(buildStore.outputDir, 'miniprogram');
+  const miniprogramAssets = new BuildAssets({ distDir: miniprogramDistDir });
+  const miniprogramState = new BundleState();
 
-// 启动开发服务器（仅在 watch 模式）
-if (buildStore.isWatch) {
-server = await serveMiniprogram(buildStore.cliOptions, dist, {...});
-// 设置状态监听和热更新...
-}
+  // 启动开发服务器（仅在 watch 模式）
+  if (buildStore.isWatch) {
+    server = await serveMiniprogram(buildStore.cliOptions, dist, {...});
+    // 设置状态监听和热更新...
+  }
 
-// 打包小程序
-await packMiniprogram({
-root: miniprogramRoot,
-assets: miniprogramAssets,
-state: miniprogramState
-});
+  // 打包小程序
+  await packMiniprogram({
+    root: miniprogramRoot,
+    assets: miniprogramAssets,
+    state: miniprogramState
+  });
 
-// 打包功能型组件（如果有）
-if (hasFunctional) {
-await packFunctional({...});
-}
+  // 打包功能型组件（如果有）
+  if (hasFunctional) {
+    await packFunctional({...});
+  }
 
-// 打包小部件（如果有）
-if (hasWidget && !onlyMiniprogram) {
-await packWidget({...});
-}
+  // 打包小部件（如果有）
+  if (hasWidget && !onlyMiniprogram) {
+    await packWidget({...});
+  }
 
-// 返回构建结果
-return {
-miniprogramAssets,
-functionalAssets,
-widgetAssets,
-server,
-};
+  // 返回构建结果
+  return {
+    miniprogramAssets,
+    functionalAssets,
+    widgetAssets,
+    server,
+  };
 }
 ```
 

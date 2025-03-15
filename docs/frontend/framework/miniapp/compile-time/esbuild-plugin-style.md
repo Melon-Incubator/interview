@@ -9,7 +9,7 @@ esbuild-plugin-style 是一个为 esbuild 打包工具设计的样式处理插�
 - CSS/LESS 文件的转换与优化
 - 错误与警告的标准化处理
 
-2. 插件核心实现
+### 2. 插件核心实现
 
 主要入口函数是 styleLoader，它返回一个 esbuild 插件对象：
 
@@ -251,55 +251,6 @@ export const getCssImportsAsync = async (
     console.warn(e);
     return [];
   }
-};
-```
-
-#### 3.3 错误和警告处理
-
-插件提供了标准化的错误和警告处理，将不同格式的错误转换为 esbuild 可以识别的格式：
-
-```typescript
-// 转换 PostCSS 警告为 esbuild 警告
-export const convertPostcssWarnings = (warnings: Warning[]): PartialMessage[] => {
-return warnings.map((message) => {
-const { plugin, type, text, line, column, endColumn, endLine, node } = message;
-let file: string;
-let lineText: string;
-
-    // 提取源文件和行文本以便更好地错误显示
-    if (node && node.source) {
-      file = node.source.input.file;
-      lineText = node.source.input.css.split('\n')[line - 1];
-    }
-
-    return {
-      pluginName: plugin,
-      text,
-      location: {
-        namespace: type,
-        line,
-        column,
-        lineText,
-        file
-      }
-    };
-
-});
-};
-
-// 转换 CSS 编译错误
-export const convertCssError = (error: CssSyntaxError): PartialMessage => {
-const lines = error.source.split('\n');
-
-return {
-text: error.reason,
-location: {
-namespace: 'file',
-line: error.line,
-column: error.column,
-file: error.file,
-lineText: lines[error.line - 1],
-},
 };
 ```
 
