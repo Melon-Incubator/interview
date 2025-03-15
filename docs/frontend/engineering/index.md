@@ -8,8 +8,10 @@
 
 [4. 持续集成与持续交付](./cicd.md)
 
-[5. 测试](./test.md)
+[5. SPA/CSR, SSR, SSG](./spa-ssr-ssg.md)
 
-[6. 监控](./monitor.md)
+[6. 测试](./test.md)
 
-[7. 安全](./security.md)
+[7. 监控](./monitor.md)
+
+[8. 安全](./security.md)
