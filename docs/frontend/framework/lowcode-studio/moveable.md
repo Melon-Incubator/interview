@@ -81,29 +81,33 @@ export class MoveableManager {
 ### 2.2 初始化和组件查找
 
 ```typescript
-init() {
-this.rootTarget = this.getRootTarget()
-if (this.rootTarget) {
-const groupTargets = document.querySelectorAll<HMTLElementWithMoveable>(`${this.groupClassName}`)
-groupTargets.forEach((group) => {
-group.isBindMoveEvent = false
-if (!group.isBindMoveEvent) {
-group.isBindMoveEvent = true
-}
-
-      let targets: NodeListOf<HTMLDivElement>
-      // 判断如果是根组件，则直接获取子元素
-      if (group.classList.contains(`${this.rootClassName.substring(1)}`)) {
-        targets = group.querySelectorAll(`:scope > ${this.targetClassName}`)
-      } else {
-        // 如果是容器组件，则去下面第三层去查找
-        targets = group.querySelectorAll(`:scope > * > * > ${this.targetClassName}`)
+function init() {
+  this.rootTarget = this.getRootTarget();
+  if (this.rootTarget) {
+    const groupTargets = document.querySelectorAll<HMTLElementWithMoveable>(
+      `${this.groupClassName}`
+    );
+    groupTargets.forEach((group) => {
+      group.isBindMoveEvent = false;
+      if (!group.isBindMoveEvent) {
+        group.isBindMoveEvent = true;
       }
 
-      const movableTargets = Array.from(targets)
-      this.initializeMoveableElements(group, movableTargets)
-    })
+      let targets: NodeListOf<HTMLDivElement>;
+      // 判断如果是根组件，则直接获取子元素
+      if (group.classList.contains(`${this.rootClassName.substring(1)}`)) {
+        targets = group.querySelectorAll(`:scope > ${this.targetClassName}`);
+      } else {
+        // 如果是容器组件，则去下面第三层去查找
+        targets = group.querySelectorAll(
+          `:scope > * > * > ${this.targetClassName}`
+        );
+      }
 
+      const movableTargets = Array.from(targets);
+      this.initializeMoveableElements(group, movableTargets);
+    });
+  }
 }
 ```
 
