@@ -144,6 +144,28 @@ Fiber Node
 1. 函数组件执行 → 2. 按顺序访问Hooks链表 → 3. 读取/更新状态 → 4. React调度渲染
 ```
 
+**Q**：Hooks 的更新流程是什么？
+
+**答**：
+
+1. React 在渲染组件时，会顺序执行 Hooks 链表中的每个 Hook。
+2. 在执行每个 Hook 时，React 会检查当前 Hook 的依赖项是否发生变化，如果变化了，React 会对当前 Hook 进行 **重新计算**，包括状态的更新和 Effect 的处理。
+3. 如果当前 Hook 的依赖项没有变化，React 则跳过当前 Hook，继续执行下一个 Hook。
+
+比如
+
+```jsx
+function Counter() {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    console.log(count);
+  }, [count]);
+  // ...
+}
+```
+
+当 `count` 发生变化时，React 会重新执行 `Counter` 组件，Hooks 链表中的每个 Hook 也会被重新执行。在执行 `useEffect` 时，React 会检查 `count` 是否发生变化，如果变化了，React 会重新执行 `useEffect`，包括状态的更新和 Effect 的处理。
+
 ---
 
 ### 五、终极面试题
@@ -175,3 +197,19 @@ function render() {
   MyComponent();
 }
 ```
+
+**Q**：为什么需要 `useMemo` 和 `useCallback`？
+
+**答**：
+
+1. **性能优化**：避免不必要的重新计算
+2. **依赖项管理**：确保依赖项一致
+3. **避免重复创建**：避免创建不必要的函数
+4. **避免重复渲染**：避免不必要的组件重新渲染
+
+**Q**：`useMemo` 和 `useCallback` 的区别是什么？
+
+**答**：
+
+1. **`useMemo`**：用于缓存计算结果
+2. **`useCallback`**：用于缓存函数引用
