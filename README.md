@@ -160,8 +160,8 @@ function InterviewPreparation() {
 
 ## 📱 联系方式
 
-- Email: your-email@example.com
-- GitHub: [your-username](https://github.com/your-username)
+- Email: mifindxuan@gmail.com
+- GitHub: [ulanxx](https://github.com/ulanxx)
 
 ## 📄 许可证
 
